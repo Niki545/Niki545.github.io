@@ -22,64 +22,72 @@
         text-align: left;
         margin: 0;
         padding:0;
+        background-image: url("titlebackground.jpg");
+        background-position: center, center;
         background-color: rgb(188, 178, 255);
     }
+    /*GenAI*/
     .container, .container-fluid {
-    width: 100% !important; /* Ensure it spans the full width */
-    padding-left: 10px !important; /* No left padding */
+    width: 100% !important; 
+    padding-left: 10px !important; 
     padding-top:20px;
-    padding-right: 0 !important; /* No right padding */
-    margin-left: 0 !important; /* Remove margin */
-    margin-right: 0 !important; /* Remove margin */
+    padding-right: 0 !important; 
+    margin-left: 0 !important; 
+    margin-right: 0 !important; 
 }
     
-    .search-box, .search-button{
-    position: absolute; /* Positions the element absolutely relative to the nearest positioned ancestor */
-    top: 30px; /* Set the distance from the top */
-    right: 20px; /* Set the distance from the right */
-    z-index: 10; /* Ensures it stays on top of other elements */}
+ /*GenAI*/
+    .search-box{
+    position: absolute; 
+    top: 30px; 
+    right: 20px; 
+    z-index: 10; }
+
+    .search-button{
+    position: absolute; 
+    top: 33px; 
+    right: 23px; 
+    z-index: 10; }
 
     .container {
-    padding-left: 0; /* Removes left padding of the container */
-    padding-right: 0; /* Optionally removes right padding */
+    padding-left: 0; 
+    padding-right: 0; 
 }
-
+/*Some GenAI - used it to move everything to the left*/
 .book-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start; /* Align items to the left */
+    gap: 20px;
+    justify-content: flex-start; 
     padding-left: 0; 
 }
-
+/*some GenAI - used it to move everything to the left*/
 .book-item {
-    width: 220px;  /* Set a fixed width for the book item */
+    width: 220px;  
+    length:200px;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #151515;
     margin-bottom: 10px;
     border-radius: 8px;
-    background: #f8f9fa;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: left; /* Ensure text inside the book items is aligned to the left */
+    background-image: url("shiny.jpeg");
+    box-shadow: 2px 2px 5px rgba(48, 47, 47, 0.1);
+    text-align: left;
 }
 .mt-2{
     width:700px
 }
-
-/* Optional: Remove margins on the form fields */
+/*GenAI - used it to move everything to the left*/
 form input, form select, form button {
-    margin-left: 0 !important; /* Remove left margin */
-    margin-right: 0 !important; /* Remove right margin */
+    margin-left: 0 !important; 
+    margin-right: 0 !important; 
 }
 .mb-3{
     padding-top: 20px;
-    border-radius: 500px;
 }
 .page-heading {
     font-family: cursive;
     color:white;
     font-size: 60px;
-    background-image: url("titlebackground.jpg"),linear-gradient(to bottom, rgb(188, 178, 255), rgb(188, 178, 255));
     background-position: right center;
     background-size: cover;
     width: 100%;
@@ -87,107 +95,64 @@ form input, form select, form button {
     top: 0;
     padding-left: 20px;
     right: 20px;
-    z-index: 10; /* Ensure it stays on top */
 }
-    .book-item strong { font-size: 1.2em; }
-    .book-item p { margin: 5px 0; }
-    .book-item select, .book-item button { margin-top: 5px; }
-
-
+    
 </style>
 </head>
 <body class="container">
-    <h1 class = "page-heading"><strong>BOOK LOG</strong></h1>
-<!-- Form to add books -->
+    <h1 class = "page-heading"><strong>BOOK LOG &#127800 &#127800 &#127800</strong></h1>
+<!--BOOTSTRAP FORM formats used to add inputs-->
 <div class="mb-3">
                 <input type="text" class ="form-control search-box" id = "bookSearch" placeHolder ="Search by Title or Author" 
                 style="border-radius: 10px; border: 1px solid #ccc; width: 450px; height: 50px;">
                 <button onclick = "search()" class="btn btn-secondary search-button">
                 <img src="search.png" alt="Search Icon" style= "border-radius: 20px; width: 30px; height: 30px;">
               </button>
-    
-    <input type="text" id="title" class="form-control mt-2" placeholder="Book Title">
-    <input type="text" id="author" class="form-control mt-2" placeholder="Author">
-    <input type="text" id="genre" class="form-control mt-2" placeholder="Genre">
+    <input type="text" id="title" class="form-control mt-2" placeholder="Enter Title">
+    <input type="text" id="author" class="form-control mt-2" placeholder="Enter Author">
+    <input type="text" id="genre" class="form-control mt-2" placeholder="Enter Genre">
     <select id="status" class="form-control mt-2">
         <option value="to-read">To Read</option>
         <option value="reading">In Progress</option>
         <option value="completed">Completed</option>
     </select>
-    <input type="number" id="rating" class="form-control mt-2" placeholder="Rating (1-5)" min="1" max="5">
-    <button class="btn btn-primary mt-2" onclick="addBook()">Add Book</button>
+    <input type="number" id="rating" class="form-control mt-2" placeholder="USE THE ARROWS TO Rate the Book from 1-5" min="1" max="5" onkeydown="return false;">
+    <button class="btn btn-primary mt-2" onclick="add()">Add Book</button>
 </div>
-<div id="book-list" class="book-list">
-    <!-- First Book Item -->
-    <div class="book-item">
-        <strong>The Great Gatsby</strong> by F. Scott Fitzgerald (Classic)
-        <p>Status: 
-            <select class="form-select" onchange="changeStatus(0, this.value)">
-                <option value="to-read">To Read</option>
-                <option value="reading">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-        </p>
-        <p>Rating: N/A</p>
-        <!-- Add an image inside the delete button -->
-        <button class="btn btn-danger btn-sm" onclick="deleteBook(0)">
-            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
-        </button>
-
-    <!-- Second Book Item -->
-    <div class="book-item">
-        <strong>1984</strong> by George Orwell (Dystopian)
-        <p>Status: 
-            <select class="form-select" onchange="changeStatus(1, this.value)">
-                <option value="to-read">To Read</option>
-                <option value="reading">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-        </p>
-        <p>Rating: N/A</p>
-        <button class="btn btn-danger btn-sm" onclick="deleteBook(1)">
-            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
-        </button>
-    </div>
-    -------
-
-    <div class="book-item">
-        <strong>Anne Frank: The Diary of a Young Girl</strong> by Anne Frank (Biography)
-        <p>Status: 
-            <select class="form-select" onchange="changeStatus(2, this.value)">
-                <option value="to-read">To Read</option>
-                <option value="reading">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-        </p>
-        <p>Rating: N/A</p>
-        <button class="btn btn-danger btn-sm" onclick="deleteBook(2)">
-            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
-        </button>
-    </div>
-
-
-</div>
+<div id="book-list" class="book-list"></div>
 <script>
-    let defaultBooks = [
+    //LIST OF BOOKS
+    let lists = [
         { title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", status: "to-read", rating: "N/A" },
         { title: "1984", author: "George Orwell", genre: "Dystopian", status: "to-read", rating: "N/A" },
-      { title: "Anne Frank: The Diary of a Young Girl", author: "Anne Frank", genre: "Biography", status: "to-read", rating: "N/A" },
+        { title: "Anne Frank: The Diary of a Young Girl", author: "Anne Frank", genre: "Biography", status: "to-read", rating: "N/A" },
+        { title: "Pride and Prejudice", author: "Jane Austen", genre: "Fiction", status: "to-read", rating: "N/A" },
+        { title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Novel", status: "to-read", rating: "N/A" },
+        { title: "Little Women", author: "Louisa May Alcott", genre: "Novel", status: "to-read", rating: "N/A" },
+        { title: "The Book Thief", author: "Markus Zusak", genre: "Novel", status: "to-read", rating: "N/A" },
+        { title: "Night", author: "Elie Wiesel", genre: "Novel", status: "to-read", rating: "N/A" },
+        { title: "Hamlet", author: "William Shakespeare", genre: "Tragedy", status: "to-read", rating: "N/A" },
+        { title: "A Tale of Two Cities", author: "Charles Dickens", genre: "Novel", status: "to-read", rating: "N/A" }
+
     ];
+    //gets the data and then stores it into local storage
+    //first used localStorage.getItem("lists") then swapped to books, since books is for the edits
+    //localStorage.getItem("lists") this will sotre it first into the local storage
+    let book = JSON.parse(localStorage.getItem("book"));
 
-    let books = JSON.parse(localStorage.getItem("books"));
-
-    // If there are no books stored, initialize with default books
-    if (!books) {
-        books = [...defaultBooks]; 
-        saveBooks();
+    //When the webpage first opens it has the list
+    //where it will puts in the list when there is nothing stores in books and that is when the user first oepns the page
+    if (!book) {
+        book = [...lists]; //have the book as the array
+        save();
+    }
+    //saves the books into local storage
+    function save() {
+        localStorage.setItem("book", JSON.stringify(book));
     }
 
-    function saveBooks() {
-        localStorage.setItem("books", JSON.stringify(books));
-    }
-
-    function addBook() {
+    function add() {
+        //gets each value enetered by the user
         const title = document.getElementById("title").value;
         const author = document.getElementById("author").value;
         const genre = document.getElementById("genre").value;
@@ -195,20 +160,27 @@ form input, form select, form button {
         const rating = document.getElementById("rating").value || "N/A";
 
         if (title && author) {
-            books.push({ title, author, genre, status, rating });
-            saveBooks();
-            displayBooks();
+            //adds element to the end of the array book
+            book.push({ title, author, genre, status, rating });
+            save();//saves the updated array into local storage
+            displayLists();//shows the updated list on the website
+            //clears the textbox
             document.getElementById("title").value = "";
             document.getElementById("author").value = "";
             document.getElementById("genre").value = "";
             document.getElementById("rating").value = "";
         }
+        else{
+            alert("PLEASE ENTER THE TITLE AND THE AUTHOR");
+        }
     }
 
-    function displayBooks() {
+    function displayLists() {
         const list = document.getElementById("book-list");
         list.innerHTML = "";
-        books.forEach((book, index) => {
+        //USED GENAI loop for storage
+        book.forEach((book, index) => {
+            //sets each list element into this format for diplay
             list.innerHTML += `
                 <div class="book-item">
                     <strong>${book.title}</strong> by ${book.author} (${book.genre})
@@ -217,33 +189,35 @@ form input, form select, form button {
                         <option value="reading" ${book.status === "reading" ? "selected" : ""}>In Progress</option>
                         <option value="completed" ${book.status === "completed" ? "selected" : ""}>Completed</option>
                     </select></p>
-                    <p>Rating: <input type="number" min="1" max="5" value="${book.rating}" onchange="updateRating(${index}, this.value)"></p>
-                    <button class="btn btn-danger btn-sm" onclick="deleteBook(${index})">Delete</button>
+                    <p>Rating: <input type="number" min="1" max="5" onkeydown="return false;" value="${book.rating}" onchange="changeRating(${index}, this.value)"></p>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBooks(${index})">
+                        <img src="delete.png" style= "border-radius: 20px; width: 20px; height: 20px;">
+                        </button>
                 </div>
             `;
         });
     }
-
+    //updates the status to the parameter
     function changeStatus(index, newStatus) {
-        books[index].status = newStatus;
-        saveBooks();
+        book[index].status = newStatus;
+        save();
         if (newStatus === "completed") {
-            alert("Congratulations on completing this book!");
+            alert("Congratulations!!!!! FOR FINISHING THE BOOK!!!");
         }
     }
-
-    function updateRating(index, newRating) {
-        books[index].rating = newRating;
-        saveBooks();
+    //changes the rating to the parameter
+    function changeRating(index, newRating) {
+        book[index].rating = newRating;
+        save();
+    }
+    //got the .splice from chatgpt's removeItem function
+    function deleteBooks(index) {
+        book.splice(index, 1);
+        save();
+        displayLists();
     }
 
-    function deleteBook(index) {
-        books.splice(index, 1);
-        saveBooks();
-        displayBooks();
-    }
-
-    displayBooks();
+    displayLists();
 </script>
 <script>
     function search() {
@@ -252,11 +226,9 @@ form input, form select, form button {
       if(input==""){
         return;
       }
-  
-      // Remove previous highlights
+      //used to remove highlight, got it from Chatgpt
       content = content.replace(/<span class="highlight">(.*?)<\/span>/g, "$1");
-  
-      // Highlight matches
+      // Highlight matches, got it from chatgpt
       let regex = new RegExp(`(${input})`, "gi");
       content = content.replace(regex, `<span class="highlight">$1</span>`);
   
