@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Search</title>
+    <style>
+      .highlight {
+          background-color: rgb(0, 238, 255);
+      }
+      </style>
+
+      <style>
+        body { font-family: Arial, sans-serif; }
+        .book-item { margin: 5px;}
+        .edit-btn, .delete-btn .status-btn{ margin-left: 10px; cursor: pointer; }
+    </style>
+    <style>
+      #lists {
+            justify-content: left;
+            text-align: left;
+            padding-top: 5px;
+            padding-left: 20px;
+        }
+  </style>
+
+<style>
+  .clicked {
+      background-color: yellow; /* Color when clicked */
+  }
+</style>
+
+<style>
+  #buttonPosition {
+      display: flex;
+      justify-content: right;
+      align-items: flex-start;
+      padding-top: 20px; 
+      padding-right: 20px;
+  }
+
+  #bookSearch {
+      padding: 10px;
+      margin-right: 10px;
+  }
+
+  button {
+      padding: 10px;
+  }
+</style>
+<style>
+  #addingBooks {
+      display: flex;
+      justify-content: right;
+      align-items: flex-start;
+      padding-right: 30px;
+      padding-left:10px;
+  }
+
+  #title {
+    padding: 10px;
+    margin-right:10px;
+  }
+  #author {
+      padding: 10px;
+      margin-right:10px;
+  }
+  #genre {
+      padding: 10px;
+      margin-right: 10px;
+  }
+  #addButton{
+    padding-bottom: 40px;
+    font-size: 15px;
+    border-radius: 10px;
+    width: 70px; 
+    height: 50px;
+  }
+</style>
+<style>
+  #heading{
+    padding: 10px;
+    margin-left:20px;
+    margin-top: 10px;
+  }
+  </style>
+    
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <div id ="buttonPosition">
+      <div id = "addingBooks">
+        <input type="title" id="title" placeholder="Enter Title"
+        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
+        <input type="author" id="author" placeholder="Enter Author Name"
+        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
+        <input type="genre" id="genre" placeholder="Enter the genre of the book"
+        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
+        <button onclick="addBook()" id = "addButton">Add book</button>
+      </div>
+    <input type="text" id = "bookSearch" placeHolder ="Search by Title or Author" 
+    style="border-radius: 10px; border: 1px solid #ccc; width: 450px; height: 50px;">
+    <button onclick = "search()">
+      <img src="search.png" alt="Search Icon" style= "border-radius: 20px; width: 30px; height: 30px;">
+    </button>
+  </div>
+  <div id = "lists">
+    <h2 id ="heading">Books</h2>
+    <ol id="bookList" style=" padding-left: 20px; color: #333; font-family: Arial, sans-serif;">
+      <li>Item 1</li>
+      <li>saghhdjgasdhjs</li>
+    </ol>
+    </div>
+    
+    <script>
+      // Load books from localStorage
+
+      function loadBooks() {
+        let books = JSON.parse(localStorage.getItem("books")) || [];
+        let list = document.getElementById("bookList");
+        list.innerHTML = "";
+        books.forEach((book, index) => {
+          let li = document.createElement("li");
+          li.className = "book-item";
+          li.innerHTML = `
+            <span contenteditable="true" onblur="editBook(${index}, this)">${book}</span>
+            <button class="delete-btn" onclick="deleteBook(${index})">
+              <img src="delete.png" alt="Search Icon" style= "border-radius: 20px; width: 20px; height: 20px;">
+            </button>
+            <button class="new-btn" id="newButton1-${index}">to read</button>
+            <button class="new-btn" id="newButton2-${index}">in the middle of reading</button>
+            <button class="new-btn" id="newButton3-${index}">completed reading</button>
+          `;
+          list.appendChild(li);
+          const newButtons = li.querySelectorAll('.new-btn'); // Select new buttons within the current list item
+
+                // Retrieve the clicked button state from localStorage for this book
+                const clickedButtonIndex = localStorage.getItem(`clickedButton-${index}`);
+
+                if (clickedButtonIndex !== null) {
+                    // Set the previously clicked button to the clicked state
+                    newButtons[clickedButtonIndex].classList.add('clicked');
+                }
+
+                newButtons.forEach((button, buttonIndex) => {
+                    button.addEventListener('click', () => {
+                        // Remove 'clicked' class from all new buttons within this list item
+                        newButtons.forEach(b => b.classList.remove('clicked'));
+
+                        // Add 'clicked' class to the clicked button
+                        button.classList.add('clicked');
+
+                        // Save the clicked button's index in localStorage
+                        localStorage.setItem(`clickedButton-${index}`, buttonIndex);
+                    });
+        });
+            });
+        }
+
+        // Call the loadBooks function to load books and set up the buttons when the page loads
+        loadBooks();
+      
+
+      
+      function addBook() {
+        let input = document.getElementById("title").value.trim() + " by " + document.getElementById("author").value.trim()+"-"+ document.getElementById("genre").value.trim();
+        let title = document.getElementById('title').value.trim();
+        let author = document.getElementById('author').value.trim();
+        if (title && author) {
+          let books = JSON.parse(localStorage.getItem("books")) || [];
+          books.push(input);
+          localStorage.setItem("books", JSON.stringify(books));
+          document.getElementById("title").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("genre").value = "";
+          loadBooks();
+        }
+        else{
+          alert("Please Make Sure you fill out All fields or at least Fill out the Title and Author fields");
+        }
+      }
+      
+      
+
+      // Edit a book name
+      function editBook(index, element) {
+        let books = JSON.parse(localStorage.getItem("books")) || [];
+        books[index] = element.innerText.trim();
+        localStorage.setItem("books", JSON.stringify(books));
+      }
+
+      // Delete a book
+      function deleteBook(index) {
+        let books = JSON.parse(localStorage.getItem("books")) || [];
+        books.splice(index, 1);
+        localStorage.setItem("books", JSON.stringify(books));
+        loadBooks();
+      }
+      // Load books when the page opens
+      window.onload = loadBooks;
+  </script>
+    <script>
+    function search() {
+      let input = document.getElementById("bookSearch").value;
+      let content = document.getElementById("lists").innerHTML;
+      if(input==""){
+        return;
+      }
+  
+      // Remove previous highlights
+      content = content.replace(/<span class="highlight">(.*?)<\/span>/g, "$1");
+  
+      // Highlight matches
+      let regex = new RegExp(`(${input})`, "gi");
+      content = content.replace(regex, `<span class="highlight">$1</span>`);
+  
+      document.getElementById("lists").innerHTML = content;
+  }
+    </script>
+  </body>
+</html>
