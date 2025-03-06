@@ -3,209 +3,235 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book Search</title>
-    <style>
-      .highlight {
-          background-color: rgb(0, 238, 255);
-      }
-      </style>
 
-      <style>
-        body { font-family: Arial, sans-serif; }
-        .book-item { margin: 5px;}
-        .edit-btn, .delete-btn .status-btn{ margin-left: 10px; cursor: pointer; }
-    </style>
-    <style>
-      #lists {
-            justify-content: left;
-            text-align: left;
-            padding-top: 5px;
-            padding-left: 20px;
-        }
-  </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-<style>
-  .clicked {
-      background-color: yellow; /* Color when clicked */
-  }
-</style>
-
-<style>
-  #buttonPosition {
-      display: flex;
-      justify-content: right;
-      align-items: flex-start;
-      padding-top: 20px; 
-      padding-right: 20px;
-  }
-
-  #bookSearch {
-      padding: 10px;
-      margin-right: 10px;
-  }
-
-  button {
-      padding: 10px;
-  }
-</style>
-<style>
-  #addingBooks {
-      display: flex;
-      justify-content: right;
-      align-items: flex-start;
-      padding-right: 30px;
-      padding-left:10px;
-  }
-
-  #title {
-    padding: 10px;
-    margin-right:10px;
-  }
-  #author {
-      padding: 10px;
-      margin-right:10px;
-  }
-  #genre {
-      padding: 10px;
-      margin-right: 10px;
-  }
-  #addButton{
-    padding-bottom: 40px;
-    font-size: 15px;
-    border-radius: 10px;
-    width: 70px; 
-    height: 50px;
-  }
-</style>
-<style>
-  #heading{
-    padding: 10px;
-    margin-left:20px;
-    margin-top: 10px;
-  }
-  </style>
-    
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
-
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <div id ="buttonPosition">
-      <div id = "addingBooks">
-        <input type="title" id="title" placeholder="Enter Title"
-        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
-        <input type="author" id="author" placeholder="Enter Author Name"
-        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
-        <input type="genre" id="genre" placeholder="Enter the genre of the book"
-        style="border-radius: 10px; border: 1px solid #ccc; width: 160px; height: 50px;">
-        <button onclick="addBook()" id = "addButton">Add book</button>
-      </div>
-    <input type="text" id = "bookSearch" placeHolder ="Search by Title or Author" 
-    style="border-radius: 10px; border: 1px solid #ccc; width: 450px; height: 50px;">
-    <button onclick = "search()">
-      <img src="search.png" alt="Search Icon" style= "border-radius: 20px; width: 30px; height: 30px;">
-    </button>
-  </div>
-  <div id = "lists">
-    <h2 id ="heading">Books</h2>
-    <ol id="bookList" style=" padding-left: 20px; color: #333; font-family: Arial, sans-serif;">
-      <li>Item 1</li>
-      <li>saghhdjgasdhjs</li>
-    </ol>
-    </div>
-    
-    <script>
-      // Load books from localStorage
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+  <style>
+    .highlight {
+        background-color: rgb(0, 238, 255);
+    }
+    </style>
 
-      function loadBooks() {
-        let books = JSON.parse(localStorage.getItem("books")) || [];
-        let list = document.getElementById("bookList");
+  <style>
+    body{
+        text-align: left;
+        margin: 0;
+        padding:0;
+        background-color: rgb(188, 178, 255);
+    }
+    .container, .container-fluid {
+    width: 100% !important; /* Ensure it spans the full width */
+    padding-left: 10px !important; /* No left padding */
+    padding-top:20px;
+    padding-right: 0 !important; /* No right padding */
+    margin-left: 0 !important; /* Remove margin */
+    margin-right: 0 !important; /* Remove margin */
+}
+    
+    .search-box, .search-button{
+    position: absolute; /* Positions the element absolutely relative to the nearest positioned ancestor */
+    top: 30px; /* Set the distance from the top */
+    right: 20px; /* Set the distance from the right */
+    z-index: 10; /* Ensures it stays on top of other elements */}
+
+    .container {
+    padding-left: 0; /* Removes left padding of the container */
+    padding-right: 0; /* Optionally removes right padding */
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start; /* Align items to the left */
+    padding-left: 0; 
+}
+
+.book-item {
+    width: 220px;  /* Set a fixed width for the book item */
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Ensure text inside the book items is aligned to the left */
+}
+.mt-2{
+    width:700px
+}
+
+/* Optional: Remove margins on the form fields */
+form input, form select, form button {
+    margin-left: 0 !important; /* Remove left margin */
+    margin-right: 0 !important; /* Remove right margin */
+}
+.mb-3{
+    padding-top: 20px;
+    border-radius: 500px;
+}
+.page-heading {
+    font-family: cursive;
+    color:white;
+    font-size: 60px;
+    background-image: url("titlebackground.jpg"),linear-gradient(to bottom, rgb(188, 178, 255), rgb(188, 178, 255));
+    background-position: right center;
+    background-size: cover;
+    width: 100%;
+    position: middle;
+    top: 0;
+    padding-left: 20px;
+    right: 20px;
+    z-index: 10; /* Ensure it stays on top */
+}
+    .book-item strong { font-size: 1.2em; }
+    .book-item p { margin: 5px 0; }
+    .book-item select, .book-item button { margin-top: 5px; }
+
+
+</style>
+</head>
+<body class="container">
+    <h1 class = "page-heading"><strong>BOOK LOG</strong></h1>
+<!-- Form to add books -->
+<div class="mb-3">
+                <input type="text" class ="form-control search-box" id = "bookSearch" placeHolder ="Search by Title or Author" 
+                style="border-radius: 10px; border: 1px solid #ccc; width: 450px; height: 50px;">
+                <button onclick = "search()" class="btn btn-secondary search-button">
+                <img src="search.png" alt="Search Icon" style= "border-radius: 20px; width: 30px; height: 30px;">
+              </button>
+    
+    <input type="text" id="title" class="form-control mt-2" placeholder="Book Title">
+    <input type="text" id="author" class="form-control mt-2" placeholder="Author">
+    <input type="text" id="genre" class="form-control mt-2" placeholder="Genre">
+    <select id="status" class="form-control mt-2">
+        <option value="to-read">To Read</option>
+        <option value="reading">In Progress</option>
+        <option value="completed">Completed</option>
+    </select>
+    <input type="number" id="rating" class="form-control mt-2" placeholder="Rating (1-5)" min="1" max="5">
+    <button class="btn btn-primary mt-2" onclick="addBook()">Add Book</button>
+</div>
+<div id="book-list" class="book-list">
+    <!-- First Book Item -->
+    <div class="book-item">
+        <strong>The Great Gatsby</strong> by F. Scott Fitzgerald (Classic)
+        <p>Status: 
+            <select class="form-select" onchange="changeStatus(0, this.value)">
+                <option value="to-read">To Read</option>
+                <option value="reading">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+        </p>
+        <p>Rating: N/A</p>
+        <!-- Add an image inside the delete button -->
+        <button class="btn btn-danger btn-sm" onclick="deleteBook(0)">
+            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
+        </button>
+
+    <!-- Second Book Item -->
+    <div class="book-item">
+        <strong>1984</strong> by George Orwell (Dystopian)
+        <p>Status: 
+            <select class="form-select" onchange="changeStatus(1, this.value)">
+                <option value="to-read">To Read</option>
+                <option value="reading">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+        </p>
+        <p>Rating: N/A</p>
+        <button class="btn btn-danger btn-sm" onclick="deleteBook(1)">
+            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
+        </button>
+    </div>
+
+
+</div>
+<script>
+    let defaultBooks = [
+        { title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", status: "to-read", rating: "N/A" },
+        { title: "1984", author: "George Orwell", genre: "Dystopian", status: "to-read", rating: "N/A" },
+    ];
+
+    let books = JSON.parse(localStorage.getItem("books"));
+
+    // If there are no books stored, initialize with default books
+    if (!books) {
+        books = [...defaultBooks]; 
+        saveBooks();
+    }
+
+    function saveBooks() {
+        localStorage.setItem("books", JSON.stringify(books));
+    }
+
+    function addBook() {
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const genre = document.getElementById("genre").value;
+        const status = document.getElementById("status").value;
+        const rating = document.getElementById("rating").value || "N/A";
+
+        if (title && author) {
+            books.push({ title, author, genre, status, rating });
+            saveBooks();
+            displayBooks();
+            document.getElementById("title").value = "";
+            document.getElementById("author").value = "";
+            document.getElementById("genre").value = "";
+            document.getElementById("rating").value = "";
+        }
+    }
+
+    function displayBooks() {
+        const list = document.getElementById("book-list");
         list.innerHTML = "";
         books.forEach((book, index) => {
-          let li = document.createElement("li");
-          li.className = "book-item";
-          li.innerHTML = `
-            <span contenteditable="true" onblur="editBook(${index}, this)">${book}</span>
-            <button class="delete-btn" onclick="deleteBook(${index})">
-              <img src="delete.png" alt="Search Icon" style= "border-radius: 20px; width: 20px; height: 20px;">
-            </button>
-            <button class="new-btn" id="newButton1-${index}">to read</button>
-            <button class="new-btn" id="newButton2-${index}">in the middle of reading</button>
-            <button class="new-btn" id="newButton3-${index}">completed reading</button>
-          `;
-          list.appendChild(li);
-          const newButtons = li.querySelectorAll('.new-btn'); // Select new buttons within the current list item
-
-                // Retrieve the clicked button state from localStorage for this book
-                const clickedButtonIndex = localStorage.getItem(`clickedButton-${index}`);
-
-                if (clickedButtonIndex !== null) {
-                    // Set the previously clicked button to the clicked state
-                    newButtons[clickedButtonIndex].classList.add('clicked');
-                }
-
-                newButtons.forEach((button, buttonIndex) => {
-                    button.addEventListener('click', () => {
-                        // Remove 'clicked' class from all new buttons within this list item
-                        newButtons.forEach(b => b.classList.remove('clicked'));
-
-                        // Add 'clicked' class to the clicked button
-                        button.classList.add('clicked');
-
-                        // Save the clicked button's index in localStorage
-                        localStorage.setItem(`clickedButton-${index}`, buttonIndex);
-                    });
+            list.innerHTML += `
+                <div class="book-item">
+                    <strong>${book.title}</strong> by ${book.author} (${book.genre})
+                    <p>Status: <select class="form-select" onchange="changeStatus(${index}, this.value)">
+                        <option value="to-read" ${book.status === "to-read" ? "selected" : ""}>To Read</option>
+                        <option value="reading" ${book.status === "reading" ? "selected" : ""}>In Progress</option>
+                        <option value="completed" ${book.status === "completed" ? "selected" : ""}>Completed</option>
+                    </select></p>
+                    <p>Rating: <input type="number" min="1" max="5" value="${book.rating}" onchange="updateRating(${index}, this.value)"></p>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBook(${index})">Delete</button>
+                </div>
+            `;
         });
-            });
+    }
+
+    function changeStatus(index, newStatus) {
+        books[index].status = newStatus;
+        saveBooks();
+        if (newStatus === "completed") {
+            alert("Congratulations on completing this book!");
         }
+    }
 
-        // Call the loadBooks function to load books and set up the buttons when the page loads
-        loadBooks();
-      
+    function updateRating(index, newRating) {
+        books[index].rating = newRating;
+        saveBooks();
+    }
 
-      
-      function addBook() {
-        let input = document.getElementById("title").value.trim() + " by " + document.getElementById("author").value.trim()+"-"+ document.getElementById("genre").value.trim();
-        let title = document.getElementById('title').value.trim();
-        let author = document.getElementById('author').value.trim();
-        if (title && author) {
-          let books = JSON.parse(localStorage.getItem("books")) || [];
-          books.push(input);
-          localStorage.setItem("books", JSON.stringify(books));
-          document.getElementById("title").value = "";
-          document.getElementById("author").value = "";
-          document.getElementById("genre").value = "";
-          loadBooks();
-        }
-        else{
-          alert("Please Make Sure you fill out All fields or at least Fill out the Title and Author fields");
-        }
-      }
-      
-      
-
-      // Edit a book name
-      function editBook(index, element) {
-        let books = JSON.parse(localStorage.getItem("books")) || [];
-        books[index] = element.innerText.trim();
-        localStorage.setItem("books", JSON.stringify(books));
-      }
-
-      // Delete a book
-      function deleteBook(index) {
-        let books = JSON.parse(localStorage.getItem("books")) || [];
+    function deleteBook(index) {
         books.splice(index, 1);
-        localStorage.setItem("books", JSON.stringify(books));
-        loadBooks();
-      }
-      // Load books when the page opens
-      window.onload = loadBooks;
-  </script>
-    <script>
+        saveBooks();
+        displayBooks();
+    }
+
+    displayBooks();
+</script>
+<script>
     function search() {
       let input = document.getElementById("bookSearch").value;
-      let content = document.getElementById("lists").innerHTML;
+      let content = document.getElementById("book-list").innerHTML;
       if(input==""){
         return;
       }
@@ -217,8 +243,10 @@
       let regex = new RegExp(`(${input})`, "gi");
       content = content.replace(regex, `<span class="highlight">$1</span>`);
   
-      document.getElementById("lists").innerHTML = content;
+      document.getElementById("book-list").innerHTML = content;
   }
     </script>
-  </body>
+
+</body>
+
 </html>
