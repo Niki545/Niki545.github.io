@@ -149,6 +149,22 @@ form input, form select, form button {
             <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
         </button>
     </div>
+    -------
+
+    <div class="book-item">
+        <strong>Anne Frank: The Diary of a Young Girl</strong> by Anne Frank (Biography)
+        <p>Status: 
+            <select class="form-select" onchange="changeStatus(2, this.value)">
+                <option value="to-read">To Read</option>
+                <option value="reading">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+        </p>
+        <p>Rating: N/A</p>
+        <button class="btn btn-danger btn-sm" onclick="deleteBook(2)">
+            <img src="delete.png" alt="Delete" style="width: 20px; height: 20px;">
+        </button>
+    </div>
 
 
 </div>
@@ -156,6 +172,7 @@ form input, form select, form button {
     let defaultBooks = [
         { title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", status: "to-read", rating: "N/A" },
         { title: "1984", author: "George Orwell", genre: "Dystopian", status: "to-read", rating: "N/A" },
+      { title: "Anne Frank: The Diary of a Young Girl", author: "Anne Frank", genre: "Biography", status: "to-read", rating: "N/A" },
     ];
 
     let books = JSON.parse(localStorage.getItem("books"));
